@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#070a12">
+    <title>Multilingual Document Q&amp;A</title>
+    <meta name="description" content="Upload PDF, DOCX, and TXT documents, ask questions in any language, and receive answers in your chosen language.">
+    <meta name="application-name" content="Multilingual Document Q&amp;A">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <header class="masthead">
+        <div class="hero-copy">
+            <p class="eyebrow">Retrieval-Augmented Generation</p>
+            <h1>Ask your documents, <em>in any language.</em></h1>
+            <p class="lede">Upload PDF, DOCX or TXT files, ask a question in any language, and choose the language the answer is written in.</p>
+            <p id="status" class="status">Checking index…</p>
+        </div>
+        <a class="scroll-cue" href="#workspace">Start ↓</a>
+    </header>
+
+    <main class="grid" id="workspace">
+        <section class="card">
+            <h2><span class="step">1</span> Upload documents</h2>
+            <form id="upload-form">
+                <label class="drop" id="drop">
+                    <input type="file" id="files" name="files" accept=".pdf,.docx,.txt" multiple aria-label="Choose documents to upload">
+                    <span class="drop-title">Choose files or drop them here</span>
+                    <span class="drop-hint">PDF, DOCX, TXT · up to 5 MB total per upload</span>
+                </label>
+                <ul id="file-list" class="file-list"></ul>
+                <button type="submit" id="upload-btn">Upload &amp; Process</button>
+                <p class="note">Uploading replaces the documents currently in the index.</p>
+                <p id="upload-msg" class="msg" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2><span class="step">2</span> Ask a question</h2>
+            <form id="query-form">
+                <label for="question">Question</label>
+                <textarea id="question" rows="4" placeholder="e.g. What is the process described in the documents? / ఈ పత్రాలలో వివరించిన ప్రక్రియ ఏమిటి?"></textarea>
+
+                <div class="row">
+                    <div>
+                        <label for="language">Answer language</label>
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="te">Telugu (తెలుగు)</option>
+                            <option value="ml">Malayalam (മലയാളം)</option>
+                            <option value="ta">Tamil (தமிழ்)</option>
+                            <option value="hi">Hindi (हिन्दी)</option>
+                            <option value="kn">Kannada (ಕನ್ನಡ)</option>
+                            <option value="ur">Urdu (اردو)</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="other">Other…</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="document">Search in</label>
+                        <select id="document">
+                            <option value="">All documents</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="custom-wrap" hidden>
+                    <label for="custom-language">Language name</label>
+                    <input id="custom-language" type="text" maxlength="50" placeholder="e.g. Bengali">
+                </div>
+
+                <button type="submit" id="query-btn">Run Retrieval</button>
+                <p id="query-msg" class="msg" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="card answer-card">
+            <h2><span class="step">3</span> Answer</h2>
+            <div id="answer" class="answer empty" aria-live="polite">Your answer appears here after you click <strong>Run Retrieval</strong>.</div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scene.js') }}"></script>
+</body>
+</html>
